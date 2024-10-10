@@ -14,12 +14,16 @@ class DeterministicFiniteAutomata: #class dfa agar codenya modular
     
     def delta_dfa(self,word): #method dfa
         
-        currenntState = self.stateAwal #nyimpen state skrg, seiring iterasi bakal di updet" trs
+        currentState = self.stateAwal #nyimpen state skrg, seiring iterasi bakal di updet" trs
         while word !="" : # iterasi input string user jd bakal iterasi trs sampe abis
-            # BAWAH INI PENTING
-            currenntState = self.ftransisi[(currenntState,word[0])] # disini current state bkl di update ato bertransisi
-            word = word[1:]# disini input string kita yang depan di pangkas krn udh di olah, mksdnya 1: itu dari indeks akhhir ampe ke 1 
-        return currenntState in self.stateAkhirs # ngembaliin nilai boolean apakah current state kita ada di state akhir
+            try:
+                currentState = self.ftransisi[(currentState, word[0])]
+                word = word[1:]
+            except KeyError:
+                # Handle the case where the transition is undefined
+                print(f"ketemu dead state")
+                return False  # Invalid transition
+        return currentState in self.stateAkhirs
     
     def hat_delta_dfa(self,CurrentStates,kata): # method dfa rekursif
         if kata =="": # base case kalo input string kita abis ya return
@@ -29,13 +33,13 @@ class DeterministicFiniteAutomata: #class dfa agar codenya modular
     
 
 # bahasa L1 , disini ak manggil class dfa trs parameternya ak isi sesuai yg di _init_
-L1 = DeterministicFiniteAutomata({0,1,2,3,4}, # himpunan states
+L1 = DeterministicFiniteAutomata({0,1,2,3,4,5}, # himpunan states
                                  {"0","1"},# sigma/ inputnya
-                                 {(0,"0"):0,(0,"1"):1, # ini fungsi2 transisinya cara bacanya kalo state X dpt input Y bakal ke state Z (X,Y):Z
-                                  (1,"0"):2,(1,"1"):1,
+                                 {(0,"0"):5,(0,"1"):1, # ini fungsi2 transisinya cara bacanya kalo state X dpt input Y bakal ke state Z (X,Y):Z
+                                  (1,"0"):2,(1,"1"):5,
                                   (2,"0"):3,(2,"1"):2,
                                   (3,"0"):3,(3,"1"):4,
-                                  (4,"0"):2,(4,"1"):2},
+                                  (4,"0"):3,(4,"1"):3},
                                  0,# state awal
                                  {4}) # himpunan state akhir
 
@@ -74,6 +78,7 @@ L4 = DeterministicFiniteAutomata({0,1,2,3,4,5,6,7,8,9,10},
                                  0,
                                  {5,10})
 
-#print(L1.delta_dfa("1001"))
+print(L1.delta_dfa("010000101"))
+print(L1.delta_dfa("10000101"))
 #print(L2.delta_dfa("1001"))
 #print(L3.delta_dfa("1001"))
