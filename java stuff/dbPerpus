@@ -1,0 +1,13 @@
+CREATE DATABASE `perpustakaan` DEFAULT CHARACTER SET latin1;
+USE perpustakaan;
+
+CREATE TABLE `buku`(
+    `kode_buku` VARCHAR(5) NOT NULL,
+    `judul_buku` VARCHAR(20) NOT NULL,
+    `pengarang` VARCHAR(15) NOT NULL,
+    `penerbit` VARCHAR(15) NOT NULL,
+    PRIMARY KEY(`kode_buku`)
+)ENGINE=InnoDB DEFAULT CHARSET = latin1
+
+INSERT INTO buku VALUES('B001','Conan','Gosho','Jepang')
+
